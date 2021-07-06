@@ -1,17 +1,70 @@
 module Types
   class QueryType < Types::BaseObject
-    # Add `node(id: ID!) and `nodes(ids: [ID!]!)`
-    include GraphQL::Types::Relay::HasNodeField
-    include GraphQL::Types::Relay::HasNodesField
 
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    # USERS
+    field :users, [Types::UserType], null: true do
+      description 'Query all users'
+    end
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :current_user, Types::UserType, null: true do
+      description 'Query the current logged in user'
+    end
+
+    field :usersCount, Integer, null: true do
+      description 'Query that counts all users'
+    end
+
+    def users
+      User.all
+    end
+
+    def current_user
+      context[:current_user]
+    end
+
+    def usersCount
+      User.count
+    end
+
+    field :employees, [Types::EmployeeType], null: true do
+      description 'Query all employees'
+    end
+
+    field :employeesCount, Integer, null: true do
+      description 'Query that counts all employees'
+    end
+
+    def employees
+      Employee.all
+    end
+
+    def employeesCount
+      User.count
+    end
+
+    # ATTENDANCE
+    field :attendances, [Types::AttendanceType], null: true do
+      description 'Query all attendances'
+    end
+
+    field :current_attendance, Types::AttendanceType, null: true do
+      description 'Query the current logged in attendance'
+    end
+
+    field :attendancesCount, Integer, null: true do
+      description 'Query that counts all attendances'
+    end
+
+    def attendances
+      Attendance.all
+    end
+
+    def current_attendance
+      context[:current_user]
+    end
+
+    def attendancesCount
+      Attendance.count
     end
   end
 end
